@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UniPortal 🎓✨
 
-## Getting Started
+> Streamlining campus support with intelligent issue tracking and fast resolutions.
 
-First, run the development server:
+UniPortal is a modern, responsive web application designed for universities to manage student and faculty requests efficiently. With a stunning user interface featuring 3D visuals and dynamic animations, UniPortal makes navigating campus services a breeze.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🔐 **Role-based Access**: Dedicated portals for Students and Admins to ensure tailored experiences.
+- 🎨 **Beautiful UI**: Built with Framer Motion and Three.js for liquid-smooth animations and 3D background elements.
+- ⚡ **Fast & Responsive**: Powered by Next.js 16 and React 19, delivering exceptional performance.
+- 🛡️ **Secure Authentication**: Protected routes and state management.
+- 📱 **Mobile First**: Fully responsive design that looks great on any screen using Tailwind CSS v4.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Library**: [React 19](https://react.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **3D Graphics**: [Three.js](https://threejs.org/) & [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber)
+- **Icons**: [Lucide React](https://lucide.dev/)
 
-## Learn More
+## 🚀 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js (v20 or higher recommended)
+- npm, pnpm, or yarn
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Hardik0385/Uniportal.git
+   cd Uniportal
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+## 📜 License
+
+This project is licensed under the MIT License.
