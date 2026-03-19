@@ -20,9 +20,9 @@ const Toggle = ({ checked, onChange }: { checked: boolean, onChange: () => void 
 export default function RoutingRulesPage() {
   const [routingRules, setRoutingRules] = useState([
     { category: "Academic Affairs", department: "Dean's Office", autoAssign: true },
-    { category: "Admission", department: "Registrar Office", autoAssign: true },
-    { category: "Finance & Fees", department: "Accounts Dept", autoAssign: false },
-    { category: "Technical Support", department: "IT Services", autoAssign: true },
+    { category: "Admissions", department: "Registrar Office", autoAssign: true },
+    { category: "Finance & Fees", department: "Accounts Department", autoAssign: false },
+    { category: "IT & Technical Support", department: "IT Helpdesk", autoAssign: true },
   ]);
 
   return (

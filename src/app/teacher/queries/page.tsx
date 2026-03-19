@@ -4,12 +4,13 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { motion } from "framer-motion";
 import { MessageSquare, MoreVertical, Search, Filter } from "lucide-react";
+import { decryptData } from "@/lib/encryption";
 
 export default function TeacherQueriesPage() {
   const [queries] = useState([
-    { id: "Q-1042", student: "Mina Rahman", title: "Course Registration Issue", status: "PENDING", date: "Oct 24, 2023", priority: "High" },
-    { id: "Q-1045", student: "Leo Chen", title: "Missing Syllabus PDF", status: "IN_PROGRESS", date: "Oct 23, 2023", priority: "Medium" },
-    { id: "Q-1039", student: "Sarah Jenkins", title: "Grade Appeal Inquiry", status: "RESOLVED", date: "Oct 21, 2023", priority: "Low" },
+    { id: "cccccccc-cccc-cccc-cccc-cccccccccccc", student: "Rohan Gupta", title: "Hostel Fee Payment Issue", status: "PENDING", date: "Oct 24, 2023", priority: "High" },
+    { id: "dddddddd-dddd-dddd-dddd-dddddddddddd", student: "Ananya Desai", title: "Library Due Fine Discrepancy", status: "IN_PROGRESS", date: "Oct 23, 2023", priority: "Medium" },
+    { id: "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee", student: "Karan Singh", title: "Scholarship Form Inquiry", status: "RESOLVED", date: "Oct 21, 2023", priority: "Low" },
   ]);
 
   return (
@@ -53,9 +54,9 @@ export default function TeacherQueriesPage() {
               <tbody className="divide-y divide-stone-100 bg-white">
                 {queries.map((q) => (
                   <tr key={q.id} className="hover:bg-stone-50/50 transition-colors">
-                    <td className="px-6 py-4 font-mono text-stone-500">{q.id}</td>
-                    <td className="px-6 py-4 font-medium text-stone-900">{q.student}</td>
-                    <td className="px-6 py-4 text-stone-700">{q.title}</td>
+                    <td className="px-6 py-4 font-mono text-stone-500" title={q.id}>{q.id.slice(0, 8)}...</td>
+                    <td className="px-6 py-4 font-medium text-stone-900">{decryptData(q.student)}</td>
+                    <td className="px-6 py-4 text-stone-700">{decryptData(q.title)}</td>
                     <td className="px-6 py-4 text-stone-500">{q.date}</td>
                     <td className="px-6 py-4">
                       <span className={`text-xs font-semibold px-2 py-1 rounded-md ${

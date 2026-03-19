@@ -39,11 +39,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = (role: Role) => {
     let newUser: User;
     if (role === "admin") {
-      newUser = { id: "a1", name: "Michael Chen", role: "admin", email: "admin@university.edu" };
+      newUser = { id: "11111111-1111-1111-1111-111111111111", name: "Aarav Sharma", role: "admin", email: "admin@university.edu.in" };
     } else if (role === "teacher") {
-      newUser = { id: "t1", name: "Prof. Sarah Miller", role: "teacher", email: "sarah.m@university.edu" };
+      newUser = { id: "22222222-2222-2222-2222-222222222222", name: "Prof. Priya Patel", role: "teacher", email: "teacher@university.edu.in" };
     } else {
-      newUser = { id: "s1", name: "Alex Johnson", role: "student", email: "alex.j@university.edu" };
+      newUser = { id: "33333333-3333-3333-3333-333333333333", name: "Rohan Gupta", role: "student", email: "student@university.edu.in" };
     }
     
     setUser(newUser);

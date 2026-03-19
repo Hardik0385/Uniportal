@@ -70,7 +70,7 @@ export default function AdminLoginPage() {
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-500" size={18} />
                     <input 
                       type="email" 
-                      defaultValue="admin@university.edu"
+                      defaultValue="admin@university.edu.in"
                       required
                       className="w-full pl-11 pr-4 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-amber-400 focus:ring-amber-500/10"
                     />

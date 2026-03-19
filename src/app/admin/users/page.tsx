@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/Badge";
-import { Trash2, UserPlus, X } from "lucide-react";
+import { Trash2, UserPlus, X, Check } from "lucide-react";
 import { Role } from "@/store/AuthContext";
+import { encryptData, decryptData } from "@/lib/encryption";
 
 interface MockUser {
   id: string;
@@ -16,9 +17,9 @@ interface MockUser {
 
 export default function UserManagementPage() {
   const [users, setUsers] = useState<MockUser[]>([
-    { id: "a1", name: "Michael Chen", email: "admin@university.edu", role: "admin" },
-    { id: "t1", name: "Prof. Sarah Miller", email: "sarah.m@university.edu", role: "teacher" },
-    { id: "s1", name: "Alex Johnson", email: "alex.j@university.edu", role: "student" },
+    { id: "11111111-1111-1111-1111-111111111111", name: "Aarav Sharma", email: "admin@university.edu.in", role: "admin" },
+    { id: "22222222-2222-2222-2222-222222222222", name: "Prof. Priya Patel", email: "teacher@university.edu.in", role: "teacher" },
+    { id: "33333333-3333-3333-3333-333333333333", name: "Rohan Gupta", email: "student@university.edu.in", role: "student" },
   ]);
 
   const [showAddForm, setShowAddForm] = useState(false);
@@ -31,9 +32,9 @@ export default function UserManagementPage() {
     if (!newUserName || !newUserEmail) return;
 
     const newUser: MockUser = {
-      id: Math.random().toString(36).substr(2, 9),
-      name: newUserName,
-      email: newUserEmail,
+      id: crypto.randomUUID(),
+      name: encryptData(newUserName),
+      email: encryptData(newUserEmail),
       role: newUserRole
     };
 
@@ -160,19 +161,19 @@ export default function UserManagementPage() {
                       exit={{ opacity: 0, backgroundColor: '#fef2f2' }}
                       className="hover:bg-stone-50/50 transition-colors group"
                     >
-                      <td className="px-6 py-4">
+                    <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
                             u.role === 'admin' ? 'bg-amber-100 text-amber-700' :
                             u.role === 'teacher' ? 'bg-blue-100 text-blue-700' :
                             'bg-orange-100 text-orange-700'
                           }`}>
-                            {u.name.charAt(0)}
+                            {decryptData(u.name).charAt(0)}
                           </div>
-                          <span className="font-bold text-stone-900">{u.name}</span>
+                          <span className="font-bold text-stone-900">{decryptData(u.name)}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-stone-500 font-medium">{u.email}</td>
+                      <td className="px-6 py-4 text-stone-500 font-medium">{decryptData(u.email)}</td>
                       <td className="px-6 py-4">
                         <Badge dot={true} variant={
                           u.role === "admin" ? "warning" : 

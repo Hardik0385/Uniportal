@@ -110,7 +110,7 @@ export default function LoginPage() {
                       <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 ${activeRole === 'student' ? 'text-orange-400' : 'text-blue-400'}`} size={18} />
                       <input 
                         type="email" 
-                        defaultValue={activeRole === "student" ? "student@university.edu" : "teacher@university.edu"}
+                        defaultValue={activeRole === "student" ? "student@university.edu.in" : "teacher@university.edu.in"}
                         required
                         className={`w-full pl-11 pr-4 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-opacity-50 ${
                           activeRole === 'student' 
