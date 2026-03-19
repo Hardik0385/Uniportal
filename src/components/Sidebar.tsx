@@ -10,7 +10,8 @@ import {
   Tags, 
   Route, 
   LogOut,
-  Layers
+  Layers,
+  Inbox
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -32,7 +33,12 @@ export default function Sidebar() {
     { href: "/admin/routing", label: "Routing Rules", icon: Route },
   ];
 
-  const links = user.role === "admin" ? adminLinks : studentLinks;
+  const teacherLinks = [
+    { href: "/teacher/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/teacher/queries", label: "Assigned Queries", icon: Inbox },
+  ];
+
+  const links = user.role === "admin" ? adminLinks : user.role === "teacher" ? teacherLinks : studentLinks;
 
   return (
     <div className="w-64 bg-white border-r border-stone-200 h-screen flex flex-col fixed inset-y-0 left-0 z-20 shadow-sm font-sans">

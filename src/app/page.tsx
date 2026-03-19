@@ -3,7 +3,7 @@
 import BackgroundDoodles from "@/components/BackgroundDoodles";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth, Role } from "@/store/AuthContext";
-import { GraduationCap, ShieldCheck, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { GraduationCap, ShieldCheck, Mail, Lock, ArrowRight, Eye, EyeOff, BookOpen } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -69,45 +69,53 @@ export default function LoginPage() {
               <p className="text-stone-500 text-sm font-medium">Login with your credentials</p>
             </div>
 
-            {/* Role Toggle (Warm Colors) */}
+            {/* Role Toggle */}
             <div className="flex justify-center mb-6">
-              <div className="bg-stone-100/80 backdrop-blur-sm p-1.5 rounded-full flex gap-1 relative w-full max-w-[280px] shadow-inner border border-stone-200/50">
+              <div className="bg-stone-100/80 backdrop-blur-sm p-1.5 rounded-full flex gap-1 relative w-full max-w-[340px] shadow-inner border border-stone-200/50">
                 <button
                   type="button"
                   onClick={() => setActiveRole("student")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 text-sm font-bold rounded-full relative z-10 transition-colors duration-300 ${activeRole === "student" ? "text-orange-700" : "text-stone-500 hover:text-stone-700"}`}
+                  className={`flex-[1] flex items-center justify-center gap-1.5 py-2.5 px-2 text-sm font-bold rounded-full relative z-10 transition-colors duration-300 ${activeRole === "student" ? "text-orange-700" : "text-stone-500 hover:text-stone-700"}`}
                 >
-                  <GraduationCap size={18} />
+                  <GraduationCap size={16} />
                   Student
                 </button>
                 <button
                   type="button"
-                  onClick={() => setActiveRole("admin")}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 text-sm font-bold rounded-full relative z-10 transition-colors duration-300 ${activeRole === "admin" ? "text-amber-700" : "text-stone-500 hover:text-stone-700"}`}
+                  onClick={() => setActiveRole("teacher")}
+                  className={`flex-[1] flex items-center justify-center gap-1.5 py-2.5 px-2 text-sm font-bold rounded-full relative z-10 transition-colors duration-300 ${activeRole === "teacher" ? "text-blue-700" : "text-stone-500 hover:text-stone-700"}`}
                 >
-                  <ShieldCheck size={18} />
+                  <BookOpen size={16} />
+                  Teacher
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveRole("admin")}
+                  className={`flex-[1] flex items-center justify-center gap-1.5 py-2.5 px-2 text-sm font-bold rounded-full relative z-10 transition-colors duration-300 ${activeRole === "admin" ? "text-amber-700" : "text-stone-500 hover:text-stone-700"}`}
+                >
+                  <ShieldCheck size={16} />
                   Admin
                 </button>
                 
                 {/* Animated Pill Background */}
                 <motion.div
-                  className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] rounded-full shadow-sm bg-white border border-stone-100 ${activeRole === 'student' ? 'shadow-orange-100' : 'shadow-amber-100'}`}
+                  className={`absolute top-1.5 bottom-1.5 w-[calc(33.33%-6px)] rounded-full shadow-sm bg-white border border-stone-100 ${activeRole === 'student' ? 'shadow-orange-100' : activeRole === 'teacher' ? 'shadow-blue-100' : 'shadow-amber-100'}`}
                   initial={false}
                   animate={{ 
-                    x: activeRole === "student" ? 0 : "100%" 
+                    x: activeRole === "student" ? "0%" : activeRole === "teacher" ? "calc(100% + 4px)" : "calc(200% + 8px)" 
                   }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               </div>
             </div>
 
-            <form onSubmit={handleLogin} className="w-full max-w-[320px] mx-auto">
+            <form onSubmit={handleLogin} className="w-full max-w-[340px] mx-auto">
               <AnimatePresence mode="popLayout">
                 <motion.div 
                   key={activeRole}
-                  initial={{ opacity: 0, x: activeRole === 'student' ? -15 : 15 }}
+                  initial={{ opacity: 0, x: activeRole === 'student' ? -15 : activeRole === 'teacher' ? 0 : 15 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: activeRole === 'student' ? 15 : -15 }}
+                  exit={{ opacity: 0, x: activeRole === 'student' ? 15 : activeRole === 'teacher' ? 0 : -15 }}
                   transition={{ duration: 0.25 }}
                   className="space-y-4"
                 >
@@ -115,14 +123,16 @@ export default function LoginPage() {
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-stone-500 ml-1 tracking-wide uppercase">Email Address</label>
                     <div className="relative">
-                      <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 ${activeRole === 'student' ? 'text-orange-400' : 'text-amber-500'}`} size={18} />
+                      <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 ${activeRole === 'student' ? 'text-orange-400' : activeRole === 'teacher' ? 'text-blue-400' : 'text-amber-500'}`} size={18} />
                       <input 
                         type="email" 
-                        defaultValue={activeRole === "student" ? "student@university.edu" : "admin@university.edu"}
+                        defaultValue={activeRole === "student" ? "student@university.edu" : activeRole === "teacher" ? "teacher@university.edu" : "admin@university.edu"}
                         required
                         className={`w-full pl-11 pr-4 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm ${
                           activeRole === 'student' 
                             ? 'focus:border-orange-400 focus:ring-orange-500/10' 
+                            : activeRole === 'teacher'
+                            ? 'focus:border-blue-400 focus:ring-blue-500/10'
                             : 'focus:border-amber-400 focus:ring-amber-500/10'
                         }`}
                       />
@@ -133,7 +143,7 @@ export default function LoginPage() {
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-stone-500 ml-1 tracking-wide uppercase">Password</label>
                     <div className="relative">
-                      <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 ${activeRole === 'student' ? 'text-orange-400' : 'text-amber-500'}`} size={18} />
+                      <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 ${activeRole === 'student' ? 'text-orange-400' : activeRole === 'teacher' ? 'text-blue-400' : 'text-amber-500'}`} size={18} />
                       <input 
                         type={showPassword ? "text" : "password"} 
                         defaultValue="password"
@@ -141,6 +151,8 @@ export default function LoginPage() {
                         className={`w-full pl-11 pr-12 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm ${
                           activeRole === 'student' 
                             ? 'focus:border-orange-400 focus:ring-orange-500/10' 
+                            : activeRole === 'teacher'
+                            ? 'focus:border-blue-400 focus:ring-blue-500/10'
                             : 'focus:border-amber-400 focus:ring-amber-500/10'
                         }`}
                       />
@@ -166,6 +178,8 @@ export default function LoginPage() {
                 className={`w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 ${
                   activeRole === 'student'
                     ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-orange-500/30'
+                    : activeRole === 'teacher'
+                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-blue-500/30'
                     : 'bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 shadow-amber-500/30'
                 }`}
               >

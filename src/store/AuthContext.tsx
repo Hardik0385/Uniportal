@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-export type Role = "student" | "admin" | null;
+export type Role = "student" | "admin" | "teacher" | null;
 
 interface User {
   id: string;
@@ -38,6 +38,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let newUser: User;
     if (role === "admin") {
       newUser = { id: "a1", name: "Michael Chen", role: "admin", email: "admin@university.edu" };
+    } else if (role === "teacher") {
+      newUser = { id: "t1", name: "Prof. Sarah Miller", role: "teacher", email: "sarah.m@university.edu" };
     } else {
       newUser = { id: "s1", name: "Alex Johnson", role: "student", email: "alex.j@university.edu" };
     }
@@ -64,6 +66,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         router.push(`/${user.role}/dashboard`);
       }
       if (pathname.startsWith("/admin") && user.role !== "admin") {
+        router.push(`/${user.role}/dashboard`);
+      }
+      if (pathname.startsWith("/teacher") && user.role !== "teacher") {
         router.push(`/${user.role}/dashboard`);
       }
     }
