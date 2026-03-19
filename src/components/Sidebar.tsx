@@ -11,7 +11,8 @@ import {
   Route, 
   LogOut,
   Layers,
-  Inbox
+  Inbox,
+  Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ export default function Sidebar() {
 
   const adminLinks = [
     { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/admin/users", label: "User Management", icon: Users },
     { href: "/admin/categories", label: "Categories", icon: Tags },
     { href: "/admin/routing", label: "Routing Rules", icon: Route },
   ];
