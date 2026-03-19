@@ -23,6 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,6 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setIsLoading(false);
   }, []);
 
   const login = (role: Role) => {
@@ -46,33 +48,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     
     setUser(newUser);
     localStorage.setItem("uqms_user", JSON.stringify(newUser));
-    router.push(`/${role}/dashboard`);
+    router.replace(`/${role}/dashboard`);
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("uqms_user");
-    router.push("/");
+    router.replace("/");
   };
 
   // RBAC routing protection mock
   useEffect(() => {
+    if (isLoading) return;
+    
     if (!user) {
-      if (pathname !== "/" && !pathname.startsWith("/api")) {
-        router.push("/");
+      if (pathname !== "/" && !pathname.startsWith("/api") && pathname !== "/admin-login") {
+        router.replace("/");
       }
     } else {
+      // Prevent logged in users from seeing login pages
+      if (pathname === "/" || pathname === "/admin-login") {
+        router.replace(`/${user.role}/dashboard`);
+        return;
+      }
+
       if (pathname.startsWith("/student") && user.role !== "student") {
-        router.push(`/${user.role}/dashboard`);
+        router.replace(`/${user.role}/dashboard`);
       }
       if (pathname.startsWith("/admin") && user.role !== "admin") {
-        router.push(`/${user.role}/dashboard`);
+        router.replace(`/${user.role}/dashboard`);
       }
       if (pathname.startsWith("/teacher") && user.role !== "teacher") {
-        router.push(`/${user.role}/dashboard`);
+        router.replace(`/${user.role}/dashboard`);
       }
     }
-  }, [user, pathname, router]);
+  }, [user, pathname, router, isLoading]);
+
+  if (isLoading) {
+    return <div className="min-h-screen bg-[#FCFBF8] flex items-center justify-center"></div>;
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
