@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export type Role = "student" | "admin" | "teacher" | null;
 
@@ -14,7 +15,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (role: Role) => void;
+  login: (email: string, password?: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -36,19 +37,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = (role: Role) => {
-    let newUser: User;
-    if (role === "admin") {
-      newUser = { id: "11111111-1111-1111-1111-111111111111", name: "Aarav Sharma", role: "admin", email: "admin@university.edu.in" };
-    } else if (role === "teacher") {
-      newUser = { id: "22222222-2222-2222-2222-222222222222", name: "Prof. Priya Patel", role: "teacher", email: "teacher@university.edu.in" };
-    } else {
-      newUser = { id: "33333333-3333-3333-3333-333333333333", name: "Rohan Gupta", role: "student", email: "student@university.edu.in" };
+  const login = async (email: string, password?: string) => {
+    setIsLoading(true);
+    try {
+      // Basic demonstrational password validation layer
+      if (password !== "password123") {
+        alert("Invalid email or password!");
+        setIsLoading(false);
+        return;
+      }
+
+      if (process.env.NEXT_PUBLIC_SUPABASE_URL && !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("your-project-id")) {
+        const { data: users, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('email', email)
+          .limit(1);
+          
+        if (error || !users || users.length === 0) {
+          alert("Invalid credentials or user not found!");
+          setIsLoading(false);
+          return;
+        }
+        
+        const dbUser = users[0] as User;
+        setUser(dbUser);
+        localStorage.setItem("uqms_user", JSON.stringify(dbUser));
+        router.replace(`/${dbUser.role}/dashboard`);
+        
+      } else {
+        let newUser: User;
+        if (email.includes('admin')) {
+          newUser = { id: "11111111-1111-1111-1111-111111111111", name: "Aarav Sharma", role: "admin", email: "admin@university.edu.in" };
+        } else if (email.includes('teacher')) {
+          newUser = { id: "22222222-2222-2222-2222-222222222222", name: "Prof. Priya Patel", role: "teacher", email: "teacher@university.edu.in" };
+        } else {
+          newUser = { id: "33333333-3333-3333-3333-333333333333", name: "Rohan Gupta", role: "student", email: "student@university.edu.in" };
+        }
+        setUser(newUser);
+        localStorage.setItem("uqms_user", JSON.stringify(newUser));
+        router.replace(`/${newUser.role}/dashboard`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Login failed.");
+    } finally {
+      setIsLoading(false);
     }
-    
-    setUser(newUser);
-    localStorage.setItem("uqms_user", JSON.stringify(newUser));
-    router.replace(`/${role}/dashboard`);
   };
 
   const logout = () => {

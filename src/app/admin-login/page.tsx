@@ -10,11 +10,16 @@ import Link from "next/link";
 
 export default function AdminLoginPage() {
   const { login } = useAuth();
+  const [email, setEmail] = useState("admin@university.edu.in");
+  const [password, setPassword] = useState("password123");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    login("admin");
+    setIsSubmitting(true);
+    await login(email, password);
+    setIsSubmitting(false);
   };
 
   return (
@@ -70,7 +75,8 @@ export default function AdminLoginPage() {
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-500" size={18} />
                     <input 
                       type="email" 
-                      defaultValue="admin@university.edu.in"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
                       className="w-full pl-11 pr-4 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-amber-400 focus:ring-amber-500/10"
                     />
@@ -83,7 +89,8 @@ export default function AdminLoginPage() {
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-500" size={18} />
                     <input 
                       type={showPassword ? "text" : "password"} 
-                      defaultValue="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       required
                       className="w-full pl-11 pr-12 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-amber-400 focus:ring-amber-500/10"
                     />
@@ -107,10 +114,11 @@ export default function AdminLoginPage() {
 
               <button 
                 type="submit"
-                className="w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 bg-gradient-to-r from-stone-800 to-stone-900 hover:from-stone-700 hover:to-stone-800 shadow-stone-800/30 ring-2 ring-transparent focus:ring-amber-500/50"
+                disabled={isSubmitting}
+                className="w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 bg-gradient-to-r from-stone-800 to-stone-900 hover:from-stone-700 hover:to-stone-800 shadow-stone-800/30 ring-2 ring-transparent focus:ring-amber-500/50 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                ACCESS SECURE PORTAL
-                <ArrowRight size={18} strokeWidth={2.5} />
+                {isSubmitting ? 'VERIFYING...' : 'ACCESS SECURE PORTAL'}
+                {!isSubmitting && <ArrowRight size={18} strokeWidth={2.5} />}
               </button>
             </form>
 
