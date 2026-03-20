@@ -7,10 +7,10 @@ import { Edit2, Trash2 } from "lucide-react";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([
-    { id: "CAT-001", name: "Academic Affairs", status: "ACTIVE" },
-    { id: "CAT-002", name: "Admission", status: "ACTIVE" },
-    { id: "CAT-003", name: "Finance & Fees", status: "ACTIVE" },
-    { id: "CAT-004", name: "Technical Support", status: "INACTIVE" },
+    { id: "44444444-4444-4444-4444-444444444444", name: "Academic Affairs", status: "ACTIVE" },
+    { id: "55555555-5555-5555-5555-555555555555", name: "Admissions", status: "ACTIVE" },
+    { id: "66666666-6666-6666-6666-666666666666", name: "Finance & Fees", status: "ACTIVE" },
+    { id: "77777777-7777-7777-7777-777777777777", name: "IT & Technical Support", status: "INACTIVE" },
   ]);
 
   return (

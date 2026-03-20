@@ -2,20 +2,24 @@
 
 import BackgroundDoodles from "@/components/BackgroundDoodles";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAuth, Role } from "@/store/AuthContext";
-import { GraduationCap, Mail, Lock, ArrowRight, Eye, EyeOff, BookOpen } from "lucide-react";
+import { useAuth } from "@/store/AuthContext";
+import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const [activeRole, setActiveRole] = useState<Role>("student");
+  const [email, setEmail] = useState("student@university.edu.in");
+  const [password, setPassword] = useState("password123");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(activeRole);
+    setIsSubmitting(true);
+    await login(email, password);
+    setIsSubmitting(false);
   };
 
   return (
@@ -49,74 +53,36 @@ export default function LoginPage() {
                 Streamlining campus support with intelligent issue tracking and fast resolutions.
               </p>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-cover bg-bottom opacity-60" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1440 320\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\'1\' d=\'M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\'%3E%3C/path%3E%3C/svg%3E")' }} />
+            <div className="absolute bottom-0 left-0 right-0 h-20 bg-cover bg-bottom opacity-60" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1440 320\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\'1\' d=\'M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,304C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\'%3E%3C/path%3E%3C/svg%3E")' }} />
           </div>
 
           {/* Right Side - Login Form */}
           <div className="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center bg-transparent">
             
-            <div className="text-center mb-8">
+            <div className="text-center mb-10">
               <h1 className="text-3xl md:text-4xl font-extrabold text-stone-800 mb-2 tracking-tight">
-                Welcome
+                Welcome Back
               </h1>
-              <p className="text-stone-500 text-sm font-medium">Login with your credentials</p>
-            </div>
-
-            {/* Role Toggle */}
-            <div className="flex justify-center mb-6">
-              <div className="bg-stone-100/80 backdrop-blur-sm p-1.5 rounded-full flex gap-1 relative w-full max-w-[300px] shadow-inner border border-stone-200/50">
-                <button
-                  type="button"
-                  onClick={() => setActiveRole("student")}
-                  className={`flex-[1] flex items-center justify-center gap-1.5 py-2.5 px-4 text-sm font-bold rounded-full relative z-10 transition-colors duration-300 ${activeRole === "student" ? "text-orange-700" : "text-stone-500 hover:text-stone-700"}`}
-                >
-                  <GraduationCap size={16} />
-                  Student
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveRole("teacher")}
-                  className={`flex-[1] flex items-center justify-center gap-1.5 py-2.5 px-4 text-sm font-bold rounded-full relative z-10 transition-colors duration-300 ${activeRole === "teacher" ? "text-blue-700" : "text-stone-500 hover:text-stone-700"}`}
-                >
-                  <BookOpen size={16} />
-                  Teacher
-                </button>
-                
-                {/* Animated Pill Background */}
-                <motion.div
-                  className={`absolute top-1.5 bottom-1.5 w-[calc(50%-4px)] rounded-full shadow-sm bg-white border border-stone-100 ${activeRole === 'student' ? 'shadow-orange-100' : 'shadow-blue-100'}`}
-                  initial={false}
-                  animate={{ 
-                    x: activeRole === "student" ? "0%" : "calc(100% + 2px)" 
-                  }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              </div>
+              <p className="text-stone-500 text-sm font-medium">Login to your account</p>
             </div>
 
             <form onSubmit={handleLogin} className="w-full max-w-[340px] mx-auto">
               <AnimatePresence mode="popLayout">
                 <motion.div 
-                  key={activeRole}
-                  initial={{ opacity: 0, x: activeRole === 'student' ? -15 : 15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: activeRole === 'student' ? 15 : -15 }}
-                  transition={{ duration: 0.25 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   className="space-y-4"
                 >
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-stone-500 ml-1 tracking-wide uppercase">Email Address</label>
                     <div className="relative">
-                      <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 ${activeRole === 'student' ? 'text-orange-400' : 'text-blue-400'}`} size={18} />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-400" size={18} />
                       <input 
                         type="email" 
-                        defaultValue={activeRole === "student" ? "student@university.edu" : "teacher@university.edu"}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
-                        className={`w-full pl-11 pr-4 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-opacity-50 ${
-                          activeRole === 'student' 
-                            ? 'focus:border-orange-400 focus:ring-orange-500/10' 
-                            : 'focus:border-blue-400 focus:ring-blue-500/10'
-                        }`}
+                        className="w-full pl-11 pr-4 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-opacity-50 focus:border-orange-400 focus:ring-orange-500/10"
                       />
                     </div>
                   </div>
@@ -124,21 +90,18 @@ export default function LoginPage() {
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-stone-500 ml-1 tracking-wide uppercase">Password</label>
                     <div className="relative">
-                      <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 ${activeRole === 'student' ? 'text-orange-400' : 'text-blue-400'}`} size={18} />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-400" size={18} />
                       <input 
                         type={showPassword ? "text" : "password"} 
-                        defaultValue="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
-                        className={`w-full pl-11 pr-12 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-opacity-50 ${
-                          activeRole === 'student' 
-                            ? 'focus:border-orange-400 focus:ring-orange-500/10' 
-                            : 'focus:border-blue-400 focus:ring-blue-500/10'
-                        }`}
+                        className="w-full pl-11 pr-12 py-3 bg-white/60 backdrop-blur-md border border-stone-200 rounded-xl text-stone-800 font-medium focus:outline-none focus:ring-4 transition-all shadow-sm focus:border-opacity-50 focus:border-orange-400 focus:ring-orange-500/10"
                       />
                       <button 
                         type="button" 
                         onClick={() => setShowPassword(!showPassword)}
-                        className={`absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 focus:outline-none transition-colors duration-200`}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 focus:outline-none transition-colors duration-200"
                         title={showPassword ? "Hide password" : "Show password"}
                       >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -157,14 +120,11 @@ export default function LoginPage() {
 
               <button 
                 type="submit"
-                className={`w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 ${
-                  activeRole === 'student'
-                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-orange-500/30 ring-2 ring-transparent focus:ring-orange-500/50'
-                    : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-blue-500/30 ring-2 ring-transparent focus:ring-blue-500/50'
-                }`}
+                disabled={isSubmitting}
+                className="w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-orange-500/30 ring-2 ring-transparent focus:ring-orange-500/50 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                SIGN IN
-                <ArrowRight size={18} strokeWidth={2.5} />
+                {isSubmitting ? 'VERIFYING...' : 'SIGN IN'}
+                {!isSubmitting && <ArrowRight size={18} strokeWidth={2.5} />}
               </button>
             </form>
 
