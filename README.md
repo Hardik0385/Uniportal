@@ -55,3 +55,20 @@ Contributions, issues, and feature requests are welcome!
 ## 📜 License
 
 This project is licensed under the MIT License.
+
+## 🧪 Test Credentials
+
+To test the application, you can use the following mock credentials for different roles (Powered by Supabase Authentication):
+
+- **Admin**:
+  - Email: `admin@university.edu.in`
+  - Password: `password123`
+- **Teacher/Staff**:
+  - Email: `teacher@university.edu.in`
+  - Password: `password123`
+- **Student**:
+  - Email: `student@university.edu.in`
+  - Password: `password123`
+
+## 🆕 Recent Changes
+- **Backend Authentication Integration**: Replaced mock login toggles with real email/password validation against a Supabase database. Protected routes and role-based access control are now enforced effectively based on the fetched user roles.
