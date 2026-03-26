@@ -25,9 +25,10 @@ jobs:
           
           # We make a simple authenticated request to the Supabase REST API to keep it alive
           # This counts as activity and prevents the project from being paused by Supabase
-          curl -s -X GET "$SUPABASE_URL/rest/v1/" \
+          curl -s -X GET "$SUPABASE_URL/rest/v1/users?select=id&limit=1" \
                -H "apikey: $SUPABASE_ANON_KEY" \
-               -H "Authorization: Bearer $SUPABASE_ANON_KEY"
+               -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+               -H "Range: 0-0"
                
           echo ""
           echo "Ping completed."
